@@ -1141,6 +1141,13 @@
 
       // Save current tab to localStorage
       localStorage.setItem('currentTab', tabName);
+
+      // Load tracker data when switching to tracker tab
+      if (tabName === 'tracker') {
+        loadWorkoutHistory();
+        loadWeightHistory();
+        updateStatistics();
+      }
     }
 
     // Restore last viewed tab on load
@@ -1509,16 +1516,6 @@
       return streak;
     }
 
-    // Update openTab to refresh tracker data
-    const originalOpenTab = openTab;
-    function openTab(evt, tabName) {
-      originalOpenTab(evt, tabName);
-      if (tabName === 'tracker') {
-        loadWorkoutHistory();
-        loadWeightHistory();
-        updateStatistics();
-      }
-    }
   </script>
 </body>
 </html>
