@@ -10,6 +10,7 @@
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     :root {
       --primary: #3498db;
@@ -587,6 +588,168 @@
       font-style: italic;
     }
 
+    /* Chart Styles */
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin: 20px 0;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .chart-controls {
+      margin-bottom: 15px;
+    }
+
+    .chart-controls select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .goal-section {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .goal-input-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .goal-input-group input {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .goal-button {
+      background: white;
+      color: #667eea;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .goal-button:hover {
+      background: #f0f0f0;
+    }
+
+    .progress-bar-container {
+      background: rgba(255,255,255,0.2);
+      height: 30px;
+      border-radius: 15px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background: white;
+      height: 100%;
+      border-radius: 15px;
+      transition: width 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    .goal-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .goal-stat {
+      text-align: center;
+      padding: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 5px;
+    }
+
+    .goal-stat-value {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .goal-stat-label {
+      font-size: 12px;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .dashboard-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .dashboard-card-title {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+
+    .dashboard-card-value {
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .dashboard-card-subtitle {
+      font-size: 12px;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    .workout-history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .workout-history-table th,
+    .workout-history-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .workout-history-table th {
+      background: var(--light-gray);
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    .workout-history-table tr:hover {
+      background: #f9f9f9;
+    }
+
     /* Mobile optimizations */
     @media (max-width: 768px) {
       .container {
@@ -630,6 +793,22 @@
         min-width: auto;
         max-width: 90%;
       }
+
+      .chart-container {
+        height: 250px;
+      }
+
+      .goal-input-group {
+        grid-template-columns: 1fr;
+      }
+
+      .goal-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -637,15 +816,14 @@
   <div class="container">
     <header>
       <h1>Nic's 45-Minute Gym Program</h1>
-      <p class="subtitle">Your 8-week transformation plan</p>
+      <p class="subtitle">Your fitness journey</p>
     </header>
     
     <div class="nav-tabs">
-      <div class="nav-tab active" onclick="openTab(event, 'monday')">Monday</div>
+      <div class="nav-tab" onclick="openTab(event, 'tracker')">Tracker</div>
+      <div class="nav-tab" onclick="openTab(event, 'monday')">Monday</div>
       <div class="nav-tab" onclick="openTab(event, 'wednesday')">Wednesday</div>
       <div class="nav-tab" onclick="openTab(event, 'friday')">Friday</div>
-      <div class="nav-tab" onclick="openTab(event, 'tracker')">Tracker</div>
-      <div class="nav-tab" onclick="openTab(event, 'info')">Info</div>
     </div>
     
     <div id="monday" class="tab-content active">
@@ -654,11 +832,9 @@
         
         <h3>Warm-up (5 min)</h3>
         <ul class="warm-cool-list">
-          <li>March in place: 30 sec</li>
+          <li>March in place: 1 min</li>
+          <li>Leg swings: 10 each direction</li>
           <li>Bodyweight squats: 10 reps</li>
-          <li>Walking lunges: 10 steps</li>
-          <li>Hip circles: 10 each direction</li>
-          <li>Jumping jacks: 30 sec</li>
         </ul>
         
         <h3>Main Workout (35 min)</h3>
@@ -745,10 +921,8 @@
         <h3>Warm-up (5 min)</h3>
         <ul class="warm-cool-list">
           <li>Arm circles: 10 each direction</li>
-          <li>Push-ups against wall: 10 reps</li>
           <li>Band pull-aparts: 15 reps</li>
-          <li>Shoulder rotations: 10 each direction</li>
-          <li>Marching in place: 30 sec</li>
+          <li>Wall push-ups: 10 reps</li>
         </ul>
         
         <h3>Main Workout (35 min)</h3>
@@ -830,11 +1004,9 @@
         
         <h3>Warm-up (5 min)</h3>
         <ul class="warm-cool-list">
-          <li>Gentle torso rotations: 10 each side</li>
           <li>Arm circles: 10 each direction</li>
           <li>Band pull-aparts: 15 reps</li>
-          <li>Cat-cow stretch: 5 reps</li>
-          <li>Marching in place: 30 sec</li>
+          <li>Wall push-ups: 10 reps</li>
         </ul>
         
         <h3>Main Workout (35 min)</h3>
@@ -906,11 +1078,128 @@
       </div>
     </div>
     
-    <div id="tracker" class="tab-content">
-      <div class="tracker-section">
-        <h2>WORKOUT LOGGER</h2>
-        <p>Select an exercise and log your performance:</p>
+    <div id="tracker" class="tab-content active">
+      <!-- Goal Setting Section -->
+      <div class="goal-section">
+        <h2>Weight Loss Goal</h2>
+        <div class="goal-input-group">
+          <input type="number" id="currentWeightGoal" placeholder="Current Weight (kg)" step="0.1">
+          <input type="number" id="targetWeightGoal" placeholder="Target Weight (kg)" step="0.1">
+        </div>
+        <button class="goal-button" onclick="setWeightGoal()">Set Goal</button>
 
+        <div id="goalProgress" style="display:none;">
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="goalProgressBar">0%</div>
+          </div>
+          <div class="goal-stats">
+            <div class="goal-stat">
+              <div class="goal-stat-value" id="goalCurrent">0</div>
+              <div class="goal-stat-label">Current</div>
+            </div>
+            <div class="goal-stat">
+              <div class="goal-stat-value" id="goalDaysEst">0</div>
+              <div class="goal-stat-label">Days Est.</div>
+            </div>
+            <div class="goal-stat">
+              <div class="goal-stat-value" id="goalTarget">0</div>
+              <div class="goal-stat-label">Target</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Metrics Dashboard -->
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="dashboard-card-title">Total Workouts</div>
+          <div class="dashboard-card-value" id="totalWorkouts">0</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-card-title">Current Streak</div>
+          <div class="dashboard-card-value" id="currentStreak">0</div>
+          <div class="dashboard-card-subtitle">days</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-card-title">Weight Lost</div>
+          <div class="dashboard-card-value" id="weightLost">0</div>
+          <div class="dashboard-card-subtitle">kg</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-card-title">Avg Weekly Loss</div>
+          <div class="dashboard-card-value" id="avgWeeklyLoss">0</div>
+          <div class="dashboard-card-subtitle">kg/week</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-card-title">Total Volume</div>
+          <div class="dashboard-card-value" id="totalVolume">0</div>
+          <div class="dashboard-card-subtitle">kg this week</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-card-title">Strongest Lift</div>
+          <div class="dashboard-card-value" id="strongestLift">-</div>
+          <div class="dashboard-card-subtitle" id="strongestLiftName">-</div>
+        </div>
+      </div>
+
+      <!-- Bodyweight Tracker -->
+      <div class="tracker-section">
+        <h2>Bodyweight Tracker</h2>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="bodyweightInput">Current Weight (kg):</label>
+            <input type="number" id="bodyweightInput" placeholder="0" step="0.1">
+          </div>
+          <div class="input-group">
+            <label for="heightInput">Height (cm):</label>
+            <input type="number" id="heightInput" placeholder="170" step="1">
+          </div>
+        </div>
+        <button class="log-button" onclick="logBodyweight()">Log Weight</button>
+        <div id="bmiDisplay"></div>
+      </div>
+
+      <!-- Bodyweight Trend Chart -->
+      <div class="tracker-section">
+        <h2>Weight Progression</h2>
+        <div class="chart-container">
+          <canvas id="weightChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Exercise Strength Chart -->
+      <div class="tracker-section">
+        <h2>Exercise Strength Progression</h2>
+        <div class="chart-controls">
+          <select id="exerciseChartSelect" onchange="updateExerciseChart()">
+            <option value="">-- Select Exercise --</option>
+            <optgroup label="Monday - Lower Body">
+              <option value="Squats or Leg Press">Squats or Leg Press</option>
+              <option value="Romanian Deadlifts">Romanian Deadlifts</option>
+              <option value="Seated Leg Extensions">Seated Leg Extensions</option>
+              <option value="Seated Calf Raises">Seated Calf Raises</option>
+            </optgroup>
+            <optgroup label="Wednesday - Upper Push">
+              <option value="Bench Press or Push-ups">Bench Press or Push-ups</option>
+              <option value="Shoulder Press">Shoulder Press</option>
+              <option value="Tricep Cable Pushdowns">Tricep Cable Pushdowns</option>
+              <option value="Chest Flies">Chest Flies</option>
+            </optgroup>
+            <optgroup label="Friday - Upper Pull">
+              <option value="Pull-ups/Lat Pulldowns">Pull-ups/Lat Pulldowns</option>
+              <option value="Rows">Rows</option>
+              <option value="Bicep Curls">Bicep Curls</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="chart-container">
+          <canvas id="exerciseChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Workout Logger -->
+      <div class="tracker-section">
+        <h2>Log Workout</h2>
         <div class="input-group">
           <label for="exerciseSelect">Exercise:</label>
           <select id="exerciseSelect">
@@ -934,148 +1223,35 @@
             </optgroup>
           </select>
         </div>
-
-        <div class="input-row">
-          <div class="input-group">
-            <label for="weightInput">Weight (kg):</label>
-            <input type="number" id="weightInput" placeholder="0" step="0.5">
-          </div>
-          <div class="input-group">
-            <label for="repsInput">Reps:</label>
-            <input type="number" id="repsInput" placeholder="0">
-          </div>
+        <div class="input-group">
+          <label for="weightInput">Weight (kg):</label>
+          <input type="number" id="weightInput" placeholder="0" step="0.5">
         </div>
-
         <button class="log-button" onclick="logWorkout()">Log Workout</button>
-
-        <h3 style="margin-top: 30px;">Recent Workouts</h3>
-        <div id="workoutHistory"></div>
       </div>
 
+      <!-- Workout History Table -->
       <div class="tracker-section">
-        <h2>BODYWEIGHT TRACKER</h2>
-
-        <div class="input-row">
-          <div class="input-group">
-            <label for="bodyweightInput">Current Weight (kg):</label>
-            <input type="number" id="bodyweightInput" placeholder="0" step="0.1">
-          </div>
-          <div class="input-group">
-            <label for="heightInput">Height (cm):</label>
-            <input type="number" id="heightInput" placeholder="170" step="1">
-          </div>
-        </div>
-
-        <button class="log-button" onclick="logBodyweight()">Log Weight</button>
-
-        <div id="bmiDisplay"></div>
-
-        <h3 style="margin-top: 30px;">Weight History</h3>
-        <div id="weightHistory"></div>
-      </div>
-
-      <div class="tracker-section">
-        <h2>STATISTICS DASHBOARD</h2>
-
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">Total Workouts</div>
-            <div class="stat-value" id="totalWorkouts">0</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Current Streak</div>
-            <div class="stat-value" id="currentStreak">0</div>
-            <div class="stat-label">days</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Weight Lost</div>
-            <div class="stat-value" id="weightLost">0</div>
-            <div class="stat-label">kg</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">To Goal</div>
-            <div class="stat-value" id="toGoal">10</div>
-            <div class="stat-label">kg remaining</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="info" class="tab-content">
-      <div class="progress-section">
-        <h2 class="progress-title">PROGRESSION PLAN</h2>
-        
-        <table class="progress-table">
-          <tr>
-            <th>Phase</th>
-            <th>Focus</th>
-            <th>Action Items</th>
-          </tr>
-          <tr>
-            <td><strong>Weeks 1-2</strong></td>
-            <td>Form & Consistency</td>
-            <td>
-              - Focus on proper technique<br>
-              - Use moderate weights<br>
-              - Complete all prescribed reps
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Weeks 3-4</strong></td>
-            <td>Progressive Overload</td>
-            <td>
-              - Increase weights by 5-10%<br>
-              - Add 1-2 reps if weights feel too easy<br>
-              - Maintain strict form
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Weeks 5-8</strong></td>
-            <td>Intensity & Volume</td>
-            <td>
-              - Further increase weights<br>
-              - Add an additional set to primary exercises<br>
-              - Reduce rest times by 15 seconds
-            </td>
-          </tr>
+        <h2>Workout History</h2>
+        <table class="workout-history-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Exercise</th>
+              <th>Weight</th>
+            </tr>
+          </thead>
+          <tbody id="workoutHistoryTable">
+            <tr>
+              <td colspan="3" class="no-data">No workouts logged yet</td>
+            </tr>
+          </tbody>
         </table>
       </div>
-      
-      <div class="workout-section">
-        <h2>SUCCESS TIPS</h2>
-        
-        <ul class="tips-list">
-          <li>Track your weights and reps in a fitness app to monitor progress</li>
-          <li>Prioritize proper form over lifting heavier weights</li>
-          <li>Stay hydrated throughout your workout (bring a water bottle)</li>
-          <li>Get a quick form check from gym staff if unsure about technique</li>
-          <li>On very busy days, focus on completing just the first two exercises</li>
-          <li>Take progress photos every 2 weeks (same position, lighting, time of day)</li>
-          <li>Ensure adequate protein intake (1.6-2g per kg bodyweight)</li>
-          <li>Get 7-8 hours of quality sleep for optimal recovery</li>
-        </ul>
-      </div>
-      
-      <div class="warning-box">
-        <p><strong>Important:</strong> Listen to your body. If you feel pain (not normal muscle fatigue), stop the exercise immediately. Proper form is more important than weight or reps.</p>
-      </div>
-      
-      <div class="info-box">
-        <h3>Back Pain Management Tips</h3>
-        <ul class="tips-list">
-          <li>Always engage your core to stabilize your spine during exercises</li>
-          <li>Use machines with back support whenever possible</li>
-          <li>Consider wearing a lightweight supportive belt for certain exercises</li>
-          <li>Apply heat before workouts to loosen muscles (if recommended by your doctor)</li>
-          <li>Apply ice after workouts if you experience any discomfort</li>
-          <li>Maintain proper posture throughout your day, not just during exercise</li>
-          <li>Consider consulting with a physical therapist to personalize this program further</li>
-        </ul>
-      </div>
     </div>
-    
+
     <footer>
-      Created for Nic's 8-Week Transformation Program - April 2025
+      Created for Nic's Ongoing Training Program - April 2025
     </footer>
   </div>
 
@@ -1098,15 +1274,9 @@
       <div class="modal-header">
         <h3 class="modal-title" id="quickLogExerciseName"></h3>
       </div>
-      <div class="input-row">
-        <div class="input-group">
-          <label for="quickWeightInput">Weight (kg):</label>
-          <input type="number" id="quickWeightInput" placeholder="0" step="0.5">
-        </div>
-        <div class="input-group">
-          <label for="quickRepsInput">Reps:</label>
-          <input type="number" id="quickRepsInput" placeholder="0">
-        </div>
+      <div class="input-group">
+        <label for="quickWeightInput">Weight (kg):</label>
+        <input type="number" id="quickWeightInput" placeholder="0" step="0.5">
       </div>
       <button class="log-button" onclick="saveQuickLog()">Save Log</button>
       <button class="close-modal" onclick="closeQuickLog()">Close</button>
@@ -1144,23 +1314,24 @@
 
       // Load tracker data when switching to tracker tab
       if (tabName === 'tracker') {
-        loadWorkoutHistory();
-        loadWeightHistory();
-        updateStatistics();
+        initializeDashboard();
       }
     }
 
-    // Restore last viewed tab on load
+    // Restore last viewed tab on load (default to tracker)
     window.addEventListener('load', () => {
-      const lastTab = localStorage.getItem('currentTab');
-      if (lastTab) {
-        const tabElement = document.querySelector(`[onclick*="${lastTab}"]`);
-        if (tabElement) {
-          document.querySelector('.tab-content.active')?.classList.remove('active');
-          document.querySelector('.nav-tab.active')?.classList.remove('active');
-          document.getElementById(lastTab)?.classList.add('active');
-          tabElement.classList.add('active');
-        }
+      const lastTab = localStorage.getItem('currentTab') || 'tracker';
+      const tabElement = document.querySelector(`[onclick*="${lastTab}"]`);
+      if (tabElement) {
+        document.querySelector('.tab-content.active')?.classList.remove('active');
+        document.querySelector('.nav-tab.active')?.classList.remove('active');
+        document.getElementById(lastTab)?.classList.add('active');
+        tabElement.classList.add('active');
+      }
+
+      // Initialize charts and dashboard
+      if (lastTab === 'tracker') {
+        initializeDashboard();
       }
     });
 
@@ -1240,17 +1411,13 @@
 
     // Initialize tracker on page load
     window.addEventListener('load', () => {
-      loadWorkoutHistory();
-      loadWeightHistory();
-      updateStatistics();
-      loadUserHeight();
+      initializeDashboard();
     });
 
     function openQuickLog(exerciseName, day) {
       currentQuickLogExercise = exerciseName;
       document.getElementById('quickLogExerciseName').textContent = exerciseName;
       document.getElementById('quickWeightInput').value = '';
-      document.getElementById('quickRepsInput').value = '';
       document.getElementById('quickLogModal').classList.add('active');
     }
 
@@ -1260,17 +1427,15 @@
 
     function saveQuickLog() {
       const weight = parseFloat(document.getElementById('quickWeightInput').value);
-      const reps = parseInt(document.getElementById('quickRepsInput').value);
 
-      if (!weight || !reps) {
-        alert('Please enter both weight and reps');
+      if (!weight) {
+        alert('Please enter weight');
         return;
       }
 
       const workoutLog = {
         exercise: currentQuickLogExercise,
         weight: weight,
-        reps: reps,
         date: new Date().toISOString()
       };
 
@@ -1284,8 +1449,7 @@
       localStorage.setItem('workoutLogs', JSON.stringify(logs));
 
       closeQuickLog();
-      loadWorkoutHistory();
-      updateStatistics();
+      initializeDashboard();
 
       alert('Workout logged successfully!');
     }
@@ -1293,17 +1457,15 @@
     function logWorkout() {
       const exercise = document.getElementById('exerciseSelect').value;
       const weight = parseFloat(document.getElementById('weightInput').value);
-      const reps = parseInt(document.getElementById('repsInput').value);
 
-      if (!exercise || !weight || !reps) {
-        alert('Please select an exercise and enter weight and reps');
+      if (!exercise || !weight) {
+        alert('Please select an exercise and enter weight');
         return;
       }
 
       const workoutLog = {
         exercise: exercise,
         weight: weight,
-        reps: reps,
         date: new Date().toISOString()
       };
 
@@ -1317,52 +1479,34 @@
       // Clear inputs
       document.getElementById('exerciseSelect').value = '';
       document.getElementById('weightInput').value = '';
-      document.getElementById('repsInput').value = '';
 
-      loadWorkoutHistory();
-      updateStatistics();
+      initializeDashboard();
 
       alert('Workout logged successfully!');
     }
 
     function loadWorkoutHistory() {
       const logs = JSON.parse(localStorage.getItem('workoutLogs') || '[]');
-      const historyDiv = document.getElementById('workoutHistory');
+      const tableBody = document.getElementById('workoutHistoryTable');
 
       if (logs.length === 0) {
-        historyDiv.innerHTML = '<div class="no-data">No workouts logged yet. Start tracking your progress!</div>';
+        tableBody.innerHTML = '<tr><td colspan="3" class="no-data">No workouts logged yet</td></tr>';
         return;
       }
 
-      // Group by exercise
-      const groupedLogs = {};
-      logs.forEach(log => {
-        if (!groupedLogs[log.exercise]) {
-          groupedLogs[log.exercise] = [];
-        }
-        if (groupedLogs[log.exercise].length < 5) {
-          groupedLogs[log.exercise].push(log);
-        }
+      // Show last 10 workouts
+      let html = '';
+      logs.slice(0, 10).forEach(log => {
+        const date = new Date(log.date);
+        const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        html += `<tr>
+          <td>${dateStr}</td>
+          <td>${log.exercise}</td>
+          <td>${log.weight}kg</td>
+        </tr>`;
       });
 
-      let html = '';
-      for (const [exercise, exerciseLogs] of Object.entries(groupedLogs)) {
-        html += `<div class="exercise-log-item">
-          <div class="exercise-log-title">${exercise}</div>
-          <div class="log-history">`;
-
-        exerciseLogs.forEach(log => {
-          const date = new Date(log.date);
-          const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-          html += `<div class="log-history-item">
-            ${log.weight}kg × ${log.reps} reps - <span class="workout-log-date">${dateStr}</span>
-          </div>`;
-        });
-
-        html += `</div></div>`;
-      }
-
-      historyDiv.innerHTML = html;
+      tableBody.innerHTML = html;
     }
 
     function logBodyweight() {
@@ -1392,8 +1536,7 @@
 
       document.getElementById('bodyweightInput').value = '';
 
-      loadWeightHistory();
-      updateStatistics();
+      initializeDashboard();
 
       alert('Weight logged successfully!');
     }
@@ -1405,67 +1548,27 @@
       }
     }
 
-    function loadWeightHistory() {
-      const logs = JSON.parse(localStorage.getItem('weightLogs') || '[]');
-      const historyDiv = document.getElementById('weightHistory');
-      const bmiDisplay = document.getElementById('bmiDisplay');
+    // Chart instances
+    let weightChart = null;
+    let exerciseChart = null;
 
-      if (logs.length === 0) {
-        historyDiv.innerHTML = '<div class="no-data">No weight entries yet. Start tracking your progress!</div>';
-        bmiDisplay.innerHTML = '';
-        return;
-      }
-
-      // Display last 10 entries
-      let html = '';
-      logs.slice(0, 10).forEach((log, index) => {
-        const date = new Date(log.date);
-        const dateStr = date.toLocaleDateString();
-
-        let trendHtml = '';
-        if (index < logs.length - 1) {
-          const diff = log.weight - logs[index + 1].weight;
-          if (diff < 0) {
-            trendHtml = `<span class="weight-trend trend-down">↓ ${Math.abs(diff).toFixed(1)}kg</span>`;
-          } else if (diff > 0) {
-            trendHtml = `<span class="weight-trend trend-up">↑ ${diff.toFixed(1)}kg</span>`;
-          } else {
-            trendHtml = `<span class="weight-trend">→ 0kg</span>`;
-          }
-        }
-
-        html += `<div class="weight-entry">
-          <div>
-            <strong>${log.weight}kg</strong> - ${dateStr}
-          </div>
-          ${trendHtml}
-        </div>`;
-      });
-
-      historyDiv.innerHTML = html;
-
-      // Calculate and display BMI
-      const height = localStorage.getItem('userHeight');
-      if (height) {
-        const heightM = parseFloat(height) / 100;
-        const bmi = (logs[0].weight / (heightM * heightM)).toFixed(1);
-
-        let bmiCategory = '';
-        if (bmi < 18.5) bmiCategory = 'Underweight';
-        else if (bmi < 25) bmiCategory = 'Normal';
-        else if (bmi < 30) bmiCategory = 'Overweight';
-        else bmiCategory = 'Obese';
-
-        bmiDisplay.innerHTML = `<div class="bmi-display">
-          <div>Your BMI: <span class="bmi-value">${bmi}</span></div>
-          <div style="font-size: 14px; margin-top: 5px;">${bmiCategory}</div>
-        </div>`;
-      }
+    // Initialize Dashboard
+    function initializeDashboard() {
+      loadUserHeight();
+      updateDashboardMetrics();
+      updateWeightChart();
+      updateExerciseChart();
+      loadWorkoutHistory();
+      updateBMI();
+      loadGoalProgress();
     }
 
-    function updateStatistics() {
-      // Total workouts (count unique dates)
+    // Update Dashboard Metrics
+    function updateDashboardMetrics() {
       const workoutLogs = JSON.parse(localStorage.getItem('workoutLogs') || '[]');
+      const weightLogs = JSON.parse(localStorage.getItem('weightLogs') || '[]');
+
+      // Total workouts (count unique dates)
       const uniqueDates = new Set();
       workoutLogs.forEach(log => {
         const date = new Date(log.date).toDateString();
@@ -1478,23 +1581,263 @@
       document.getElementById('currentStreak').textContent = streak;
 
       // Weight lost
-      const weightLogs = JSON.parse(localStorage.getItem('weightLogs') || '[]');
+      let weightLost = 0;
       if (weightLogs.length >= 2) {
         const firstWeight = weightLogs[weightLogs.length - 1].weight;
         const currentWeight = weightLogs[0].weight;
-        const lost = firstWeight - currentWeight;
-        document.getElementById('weightLost').textContent = lost.toFixed(1);
-
-        // Update goal
-        const remaining = Math.max(0, 10 - lost);
-        document.getElementById('toGoal').textContent = remaining.toFixed(1);
+        weightLost = firstWeight - currentWeight;
+        document.getElementById('weightLost').textContent = weightLost.toFixed(1);
+      } else {
+        document.getElementById('weightLost').textContent = '0';
       }
+
+      // Average weekly loss
+      if (weightLogs.length >= 2) {
+        const firstDate = new Date(weightLogs[weightLogs.length - 1].date);
+        const lastDate = new Date(weightLogs[0].date);
+        const weeks = (lastDate - firstDate) / (1000 * 60 * 60 * 24 * 7);
+        if (weeks > 0) {
+          const avgWeekly = weightLost / weeks;
+          document.getElementById('avgWeeklyLoss').textContent = avgWeekly.toFixed(2);
+        } else {
+          document.getElementById('avgWeeklyLoss').textContent = '0';
+        }
+      } else {
+        document.getElementById('avgWeeklyLoss').textContent = '0';
+      }
+
+      // Total volume this week
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      let totalVolume = 0;
+      workoutLogs.forEach(log => {
+        const logDate = new Date(log.date);
+        if (logDate >= oneWeekAgo) {
+          totalVolume += log.weight || 0;
+        }
+      });
+      document.getElementById('totalVolume').textContent = totalVolume.toFixed(0);
+
+      // Strongest lift
+      const exerciseMaxes = {};
+      workoutLogs.forEach(log => {
+        if (!exerciseMaxes[log.exercise] || log.weight > exerciseMaxes[log.exercise]) {
+          exerciseMaxes[log.exercise] = log.weight;
+        }
+      });
+
+      let strongestExercise = '-';
+      let strongestWeight = 0;
+      for (const [exercise, weight] of Object.entries(exerciseMaxes)) {
+        if (weight > strongestWeight) {
+          strongestWeight = weight;
+          strongestExercise = exercise;
+        }
+      }
+
+      document.getElementById('strongestLift').textContent = strongestWeight > 0 ? strongestWeight + 'kg' : '-';
+      document.getElementById('strongestLiftName').textContent = strongestExercise;
+    }
+
+    // Update Weight Chart
+    function updateWeightChart() {
+      const weightLogs = JSON.parse(localStorage.getItem('weightLogs') || '[]');
+      const ctx = document.getElementById('weightChart');
+
+      if (!ctx) return;
+
+      // Get last 20 entries (reverse order for chart)
+      const chartData = weightLogs.slice(0, 20).reverse();
+      const labels = chartData.map(log => new Date(log.date).toLocaleDateString());
+      const data = chartData.map(log => log.weight);
+
+      // Determine trend color
+      let borderColor = '#3498db';
+      if (data.length >= 2) {
+        if (data[data.length - 1] < data[0]) {
+          borderColor = '#2ecc71'; // Green for weight loss
+        } else if (data[data.length - 1] > data[0]) {
+          borderColor = '#e74c3c'; // Red for weight gain
+        }
+      }
+
+      if (weightChart) {
+        weightChart.destroy();
+      }
+
+      weightChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Weight (kg)',
+            data: data,
+            borderColor: borderColor,
+            backgroundColor: borderColor + '20',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false
+            }
+          }
+        }
+      });
+    }
+
+    // Update Exercise Chart
+    function updateExerciseChart() {
+      const exercise = document.getElementById('exerciseChartSelect')?.value;
+      const ctx = document.getElementById('exerciseChart');
+
+      if (!ctx || !exercise) {
+        if (exerciseChart) {
+          exerciseChart.destroy();
+          exerciseChart = null;
+        }
+        return;
+      }
+
+      const workoutLogs = JSON.parse(localStorage.getItem('workoutLogs') || '[]');
+      const exerciseLogs = workoutLogs.filter(log => log.exercise === exercise).slice(0, 20).reverse();
+
+      const labels = exerciseLogs.map(log => new Date(log.date).toLocaleDateString());
+      const data = exerciseLogs.map(log => log.weight);
+
+      if (exerciseChart) {
+        exerciseChart.destroy();
+      }
+
+      exerciseChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Weight (kg)',
+            data: data,
+            borderColor: '#3498db',
+            backgroundColor: '#3498db20',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false
+            }
+          }
+        }
+      });
+    }
+
+    // Update BMI Display
+    function updateBMI() {
+      const weightLogs = JSON.parse(localStorage.getItem('weightLogs') || '[]');
+      const bmiDisplay = document.getElementById('bmiDisplay');
+
+      if (!bmiDisplay) return;
+
+      if (weightLogs.length === 0) {
+        bmiDisplay.innerHTML = '';
+        return;
+      }
+
+      const height = localStorage.getItem('userHeight');
+      if (height) {
+        const heightM = parseFloat(height) / 100;
+        const bmi = (weightLogs[0].weight / (heightM * heightM)).toFixed(1);
+
+        let bmiCategory = '';
+        if (bmi < 18.5) bmiCategory = 'Underweight';
+        else if (bmi < 25) bmiCategory = 'Normal';
+        else if (bmi < 30) bmiCategory = 'Overweight';
+        else bmiCategory = 'Obese';
+
+        bmiDisplay.innerHTML = `<div class="bmi-display">
+          <div>Your BMI: <span class="bmi-value">${bmi}</span></div>
+          <div style="font-size: 14px; margin-top: 5px;">${bmiCategory}</div>
+        </div>`;
+      } else {
+        bmiDisplay.innerHTML = '';
+      }
+    }
+
+    // Goal Setting
+    function setWeightGoal() {
+      const current = parseFloat(document.getElementById('currentWeightGoal').value);
+      const target = parseFloat(document.getElementById('targetWeightGoal').value);
+
+      if (!current || !target) {
+        alert('Please enter both current and target weight');
+        return;
+      }
+
+      if (target >= current) {
+        alert('Target weight must be less than current weight for weight loss');
+        return;
+      }
+
+      localStorage.setItem('weightGoal', JSON.stringify({ current, target }));
+      loadGoalProgress();
+      alert('Goal set successfully!');
+    }
+
+    function loadGoalProgress() {
+      const goalData = JSON.parse(localStorage.getItem('weightGoal') || 'null');
+      const goalProgress = document.getElementById('goalProgress');
+
+      if (!goalProgress) return;
+
+      if (!goalData) {
+        goalProgress.style.display = 'none';
+        return;
+      }
+
+      goalProgress.style.display = 'block';
+
+      const weightLogs = JSON.parse(localStorage.getItem('weightLogs') || '[]');
+      const currentWeight = weightLogs.length > 0 ? weightLogs[0].weight : goalData.current;
+
+      const totalLoss = goalData.current - goalData.target;
+      const achievedLoss = goalData.current - currentWeight;
+      const progressPercent = Math.min(100, Math.max(0, (achievedLoss / totalLoss) * 100));
+
+      document.getElementById('goalProgressBar').style.width = progressPercent + '%';
+      document.getElementById('goalProgressBar').textContent = progressPercent.toFixed(0) + '%';
+      document.getElementById('goalCurrent').textContent = currentWeight.toFixed(1) + 'kg';
+      document.getElementById('goalTarget').textContent = goalData.target.toFixed(1) + 'kg';
+
+      // Estimate days
+      const avgWeeklyLoss = parseFloat(document.getElementById('avgWeeklyLoss').textContent) || 0.5;
+      const remainingLoss = currentWeight - goalData.target;
+      const estimatedWeeks = remainingLoss / avgWeeklyLoss;
+      const estimatedDays = Math.round(estimatedWeeks * 7);
+
+      document.getElementById('goalDaysEst').textContent = estimatedDays > 0 ? estimatedDays : '-';
     }
 
     function calculateStreak(dates) {
       if (dates.length === 0) return 0;
 
-      dates.sort((a, b) => b - a); // Sort descending
+      dates.sort((a, b) => b - a);
 
       let streak = 0;
       const today = new Date();
