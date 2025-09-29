@@ -123,7 +123,7 @@
     }
     
     .exercise-table th, .exercise-table td {
-      padding: 12px 15px;
+      padding: 15px;
       text-align: left;
       border-bottom: 1px solid #ddd;
     }
@@ -254,17 +254,15 @@
       color: #777;
     }
     
-    .exercise-img {
-      width: 40px;
-      height: 40px;
-      background-color: var(--light-gray);
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      color: var(--primary);
+    .exercise-icon {
+      width: 12px;
+      height: 12px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      display: inline-block;
       margin-right: 10px;
+      position: relative;
+      top: 1px;
     }
     
     .exercise-row {
@@ -365,6 +363,230 @@
       margin-left: 10px;
     }
 
+    /* Tracker Tab Styles */
+    .tracker-section {
+      margin-bottom: 30px;
+    }
+
+    .log-button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .log-button:hover {
+      background: var(--secondary);
+    }
+
+    .log-button-small {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .log-button-small:hover {
+      background: var(--primary);
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .workout-log-entry {
+      background: var(--light-gray);
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .workout-log-date {
+      color: #777;
+      font-size: 12px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .weight-entry {
+      background: var(--light-gray);
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .weight-trend {
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    .trend-down {
+      color: var(--success);
+    }
+
+    .trend-up {
+      color: var(--danger);
+    }
+
+    .bmi-display {
+      background: linear-gradient(135deg, #2ecc71, #1abc9c);
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .bmi-value {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .exercise-log-item {
+      background: var(--light-gray);
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+
+    .exercise-log-title {
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+
+    .log-history {
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .log-history-item {
+      padding: 5px 0;
+      border-bottom: 1px dashed #ccc;
+    }
+
+    .log-history-item:last-child {
+      border-bottom: none;
+    }
+
+    .quick-log-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .quick-log-modal.active {
+      display: flex;
+    }
+
+    .quick-log-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      min-width: 300px;
+      max-width: 500px;
+    }
+
+    .modal-header {
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      color: var(--secondary);
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .close-modal {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .no-data {
+      text-align: center;
+      color: #777;
+      padding: 20px;
+      font-style: italic;
+    }
+
     /* Mobile optimizations */
     @media (max-width: 768px) {
       .container {
@@ -394,6 +616,20 @@
         padding: 30px 20px;
         min-width: 250px;
       }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .input-row {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-log-content {
+        padding: 20px;
+        min-width: auto;
+        max-width: 90%;
+      }
     }
   </style>
 </head>
@@ -408,7 +644,8 @@
       <div class="nav-tab active" onclick="openTab(event, 'monday')">Monday</div>
       <div class="nav-tab" onclick="openTab(event, 'wednesday')">Wednesday</div>
       <div class="nav-tab" onclick="openTab(event, 'friday')">Friday</div>
-      <div class="nav-tab" onclick="openTab(event, 'progress')">Progress</div>
+      <div class="nav-tab" onclick="openTab(event, 'tracker')">Tracker</div>
+      <div class="nav-tab" onclick="openTab(event, 'info')">Info</div>
     </div>
     
     <div id="monday" class="tab-content active">
@@ -434,61 +671,43 @@
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Squats or Leg Press</span>
-                  <a href="https://www.youtube.com/watch?v=SW_C1A-rejs" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Squats or Leg Press</span>
+              <a href="https://www.youtube.com/watch?v=SW_C1A-rejs" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Squats or Leg Press', 'monday')">Log</button>
             </td>
-            <td>
-              4 × 12,10,8,8<br>
-
-            </td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>4 × 12,10,8,8</td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Romanian Deadlifts</span>
-                  <a href="https://www.youtube.com/watch?v=JCXUYuzwNrM" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Romanian Deadlifts</span>
+              <a href="https://www.youtube.com/watch?v=JCXUYuzwNrM" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Romanian Deadlifts', 'monday')">Log</button>
             </td>
-            <td>
-              3 × 12,10,8<br>
-
-            </td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>3 × 12,10,8</td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Seated Leg Extensions</span>
-                  <a href="https://www.youtube.com/watch?v=YyvSfVjQeL0" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Seated Leg Extensions</span>
+              <a href="https://www.youtube.com/watch?v=YyvSfVjQeL0" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Seated Leg Extensions', 'monday')">Log</button>
             </td>
             <td>3 × 12</td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Seated Calf Raises</span>
-                  <a href="https://www.youtube.com/watch?v=JbyjNymZOt0" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Seated Calf Raises</span>
+              <a href="https://www.youtube.com/watch?v=JbyjNymZOt0" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Seated Calf Raises', 'monday')">Log</button>
             </td>
             <td>3 × 15</td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
         </table>
         
@@ -542,59 +761,43 @@
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Bench Press or Push-ups</span>
-                  <a href="https://www.youtube.com/watch?v=rT7DgCr-3pg" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Bench Press or Push-ups</span>
+              <a href="https://www.youtube.com/watch?v=rT7DgCr-3pg" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Bench Press or Push-ups', 'wednesday')">Log</button>
             </td>
-            <td>
-              4 × 12,10,8,8<br>
-            </td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>4 × 12,10,8,8</td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Shoulder Press</span>
-                  <a href="https://www.youtube.com/watch?v=qEwKCR5JCog" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Shoulder Press</span>
+              <a href="https://www.youtube.com/watch?v=qEwKCR5JCog" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Shoulder Press', 'wednesday')">Log</button>
             </td>
-            <td>
-              3 × 12,10,8<br>
-            </td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>3 × 12,10,8</td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Tricep Cable Pushdowns</span>
-                  <a href="https://www.youtube.com/watch?v=2-LAMcpzODU" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Tricep Cable Pushdowns</span>
+              <a href="https://www.youtube.com/watch?v=2-LAMcpzODU" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Tricep Cable Pushdowns', 'wednesday')">Log</button>
             </td>
             <td>3 × 12</td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Chest Flies</span>
-                  <a href="https://www.youtube.com/watch?v=eozdVDA78K0" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Chest Flies</span>
+              <a href="https://www.youtube.com/watch?v=eozdVDA78K0" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Chest Flies', 'wednesday')">Log</button>
             </td>
             <td>3 × 12</td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
         </table>
         
@@ -644,46 +847,33 @@
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Pull-ups/Lat Pulldowns</span>
-                  <a href="https://www.youtube.com/watch?v=jR8l4wr_lx0" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Pull-ups/Lat Pulldowns</span>
+              <a href="https://www.youtube.com/watch?v=jR8l4wr_lx0" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Pull-ups/Lat Pulldowns', 'friday')">Log</button>
             </td>
-            <td>
-              4 × 12,10,8,8<br>
-            </td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>4 × 12,10,8,8</td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Rows</span>
-                  <a href="https://www.youtube.com/watch?v=CfcClG4CpEo" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Rows</span>
+              <a href="https://www.youtube.com/watch?v=CfcClG4CpEo" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Rows', 'friday')">Log</button>
             </td>
-            <td>
-              3 × 12,10,10<br>
-            </td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>3 × 12,10,10</td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
           <tr class="exercise-row">
             <td>
-              <div>
-                <div class="exercise-img">💪</div>
-                <div>
-                  <span class="exercise-name">Bicep Curls</span>
-                  <a href="https://www.youtube.com/watch?v=kwG2ipFRgfo" target="_blank" class="exercise-link">[Video]</a>
-                </div>
-              </div>
+              <span class="exercise-icon"></span>
+              <span class="exercise-name">Bicep Curls</span>
+              <a href="https://www.youtube.com/watch?v=kwG2ipFRgfo" target="_blank" class="exercise-link">[Video]</a>
+              <button class="log-button-small" onclick="openQuickLog('Bicep Curls', 'friday')">Log</button>
             </td>
             <td>3 × 12</td>
-            <td>60s <span class="rest-link" onclick="startTimer(60)">⏱️</span></td>
+            <td>60s <span class="rest-link" onclick="startTimer(60)">[Start]</span></td>
           </tr>
         </table>
         
@@ -716,7 +906,102 @@
       </div>
     </div>
     
-    <div id="progress" class="tab-content">
+    <div id="tracker" class="tab-content">
+      <div class="tracker-section">
+        <h2>WORKOUT LOGGER</h2>
+        <p>Select an exercise and log your performance:</p>
+
+        <div class="input-group">
+          <label for="exerciseSelect">Exercise:</label>
+          <select id="exerciseSelect">
+            <option value="">-- Select Exercise --</option>
+            <optgroup label="Monday - Lower Body">
+              <option value="Squats or Leg Press">Squats or Leg Press</option>
+              <option value="Romanian Deadlifts">Romanian Deadlifts</option>
+              <option value="Seated Leg Extensions">Seated Leg Extensions</option>
+              <option value="Seated Calf Raises">Seated Calf Raises</option>
+            </optgroup>
+            <optgroup label="Wednesday - Upper Push">
+              <option value="Bench Press or Push-ups">Bench Press or Push-ups</option>
+              <option value="Shoulder Press">Shoulder Press</option>
+              <option value="Tricep Cable Pushdowns">Tricep Cable Pushdowns</option>
+              <option value="Chest Flies">Chest Flies</option>
+            </optgroup>
+            <optgroup label="Friday - Upper Pull">
+              <option value="Pull-ups/Lat Pulldowns">Pull-ups/Lat Pulldowns</option>
+              <option value="Rows">Rows</option>
+              <option value="Bicep Curls">Bicep Curls</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label for="weightInput">Weight (kg):</label>
+            <input type="number" id="weightInput" placeholder="0" step="0.5">
+          </div>
+          <div class="input-group">
+            <label for="repsInput">Reps:</label>
+            <input type="number" id="repsInput" placeholder="0">
+          </div>
+        </div>
+
+        <button class="log-button" onclick="logWorkout()">Log Workout</button>
+
+        <h3 style="margin-top: 30px;">Recent Workouts</h3>
+        <div id="workoutHistory"></div>
+      </div>
+
+      <div class="tracker-section">
+        <h2>BODYWEIGHT TRACKER</h2>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label for="bodyweightInput">Current Weight (kg):</label>
+            <input type="number" id="bodyweightInput" placeholder="0" step="0.1">
+          </div>
+          <div class="input-group">
+            <label for="heightInput">Height (cm):</label>
+            <input type="number" id="heightInput" placeholder="170" step="1">
+          </div>
+        </div>
+
+        <button class="log-button" onclick="logBodyweight()">Log Weight</button>
+
+        <div id="bmiDisplay"></div>
+
+        <h3 style="margin-top: 30px;">Weight History</h3>
+        <div id="weightHistory"></div>
+      </div>
+
+      <div class="tracker-section">
+        <h2>STATISTICS DASHBOARD</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Workouts</div>
+            <div class="stat-value" id="totalWorkouts">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Current Streak</div>
+            <div class="stat-value" id="currentStreak">0</div>
+            <div class="stat-label">days</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Weight Lost</div>
+            <div class="stat-value" id="weightLost">0</div>
+            <div class="stat-label">kg</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">To Goal</div>
+            <div class="stat-value" id="toGoal">10</div>
+            <div class="stat-label">kg remaining</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="info" class="tab-content">
       <div class="progress-section">
         <h2 class="progress-title">PROGRESSION PLAN</h2>
         
@@ -804,6 +1089,27 @@
         <button class="timer-btn reset" onclick="resetTimer()">Reset</button>
         <button class="timer-btn close" onclick="closeTimer()">Close</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Quick Log Modal -->
+  <div id="quickLogModal" class="quick-log-modal">
+    <div class="quick-log-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="quickLogExerciseName"></h3>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="quickWeightInput">Weight (kg):</label>
+          <input type="number" id="quickWeightInput" placeholder="0" step="0.5">
+        </div>
+        <div class="input-group">
+          <label for="quickRepsInput">Reps:</label>
+          <input type="number" id="quickRepsInput" placeholder="0">
+        </div>
+      </div>
+      <button class="log-button" onclick="saveQuickLog()">Save Log</button>
+      <button class="close-modal" onclick="closeQuickLog()">Close</button>
     </div>
   </div>
 
@@ -920,6 +1226,298 @@
       const seconds = timeRemaining % 60;
       document.getElementById('timerDisplay').textContent =
         `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    // Tracker functionality
+    let currentQuickLogExercise = '';
+
+    // Initialize tracker on page load
+    window.addEventListener('load', () => {
+      loadWorkoutHistory();
+      loadWeightHistory();
+      updateStatistics();
+      loadUserHeight();
+    });
+
+    function openQuickLog(exerciseName, day) {
+      currentQuickLogExercise = exerciseName;
+      document.getElementById('quickLogExerciseName').textContent = exerciseName;
+      document.getElementById('quickWeightInput').value = '';
+      document.getElementById('quickRepsInput').value = '';
+      document.getElementById('quickLogModal').classList.add('active');
+    }
+
+    function closeQuickLog() {
+      document.getElementById('quickLogModal').classList.remove('active');
+    }
+
+    function saveQuickLog() {
+      const weight = parseFloat(document.getElementById('quickWeightInput').value);
+      const reps = parseInt(document.getElementById('quickRepsInput').value);
+
+      if (!weight || !reps) {
+        alert('Please enter both weight and reps');
+        return;
+      }
+
+      const workoutLog = {
+        exercise: currentQuickLogExercise,
+        weight: weight,
+        reps: reps,
+        date: new Date().toISOString()
+      };
+
+      // Get existing logs
+      let logs = JSON.parse(localStorage.getItem('workoutLogs') || '[]');
+      logs.unshift(workoutLog);
+
+      // Keep only last 100 logs
+      if (logs.length > 100) logs = logs.slice(0, 100);
+
+      localStorage.setItem('workoutLogs', JSON.stringify(logs));
+
+      closeQuickLog();
+      loadWorkoutHistory();
+      updateStatistics();
+
+      alert('Workout logged successfully!');
+    }
+
+    function logWorkout() {
+      const exercise = document.getElementById('exerciseSelect').value;
+      const weight = parseFloat(document.getElementById('weightInput').value);
+      const reps = parseInt(document.getElementById('repsInput').value);
+
+      if (!exercise || !weight || !reps) {
+        alert('Please select an exercise and enter weight and reps');
+        return;
+      }
+
+      const workoutLog = {
+        exercise: exercise,
+        weight: weight,
+        reps: reps,
+        date: new Date().toISOString()
+      };
+
+      let logs = JSON.parse(localStorage.getItem('workoutLogs') || '[]');
+      logs.unshift(workoutLog);
+
+      if (logs.length > 100) logs = logs.slice(0, 100);
+
+      localStorage.setItem('workoutLogs', JSON.stringify(logs));
+
+      // Clear inputs
+      document.getElementById('exerciseSelect').value = '';
+      document.getElementById('weightInput').value = '';
+      document.getElementById('repsInput').value = '';
+
+      loadWorkoutHistory();
+      updateStatistics();
+
+      alert('Workout logged successfully!');
+    }
+
+    function loadWorkoutHistory() {
+      const logs = JSON.parse(localStorage.getItem('workoutLogs') || '[]');
+      const historyDiv = document.getElementById('workoutHistory');
+
+      if (logs.length === 0) {
+        historyDiv.innerHTML = '<div class="no-data">No workouts logged yet. Start tracking your progress!</div>';
+        return;
+      }
+
+      // Group by exercise
+      const groupedLogs = {};
+      logs.forEach(log => {
+        if (!groupedLogs[log.exercise]) {
+          groupedLogs[log.exercise] = [];
+        }
+        if (groupedLogs[log.exercise].length < 5) {
+          groupedLogs[log.exercise].push(log);
+        }
+      });
+
+      let html = '';
+      for (const [exercise, exerciseLogs] of Object.entries(groupedLogs)) {
+        html += `<div class="exercise-log-item">
+          <div class="exercise-log-title">${exercise}</div>
+          <div class="log-history">`;
+
+        exerciseLogs.forEach(log => {
+          const date = new Date(log.date);
+          const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+          html += `<div class="log-history-item">
+            ${log.weight}kg × ${log.reps} reps - <span class="workout-log-date">${dateStr}</span>
+          </div>`;
+        });
+
+        html += `</div></div>`;
+      }
+
+      historyDiv.innerHTML = html;
+    }
+
+    function logBodyweight() {
+      const weight = parseFloat(document.getElementById('bodyweightInput').value);
+      const height = parseFloat(document.getElementById('heightInput').value);
+
+      if (!weight) {
+        alert('Please enter your current weight');
+        return;
+      }
+
+      if (height) {
+        localStorage.setItem('userHeight', height);
+      }
+
+      const weightLog = {
+        weight: weight,
+        date: new Date().toISOString()
+      };
+
+      let logs = JSON.parse(localStorage.getItem('weightLogs') || '[]');
+      logs.unshift(weightLog);
+
+      if (logs.length > 50) logs = logs.slice(0, 50);
+
+      localStorage.setItem('weightLogs', JSON.stringify(logs));
+
+      document.getElementById('bodyweightInput').value = '';
+
+      loadWeightHistory();
+      updateStatistics();
+
+      alert('Weight logged successfully!');
+    }
+
+    function loadUserHeight() {
+      const height = localStorage.getItem('userHeight');
+      if (height) {
+        document.getElementById('heightInput').value = height;
+      }
+    }
+
+    function loadWeightHistory() {
+      const logs = JSON.parse(localStorage.getItem('weightLogs') || '[]');
+      const historyDiv = document.getElementById('weightHistory');
+      const bmiDisplay = document.getElementById('bmiDisplay');
+
+      if (logs.length === 0) {
+        historyDiv.innerHTML = '<div class="no-data">No weight entries yet. Start tracking your progress!</div>';
+        bmiDisplay.innerHTML = '';
+        return;
+      }
+
+      // Display last 10 entries
+      let html = '';
+      logs.slice(0, 10).forEach((log, index) => {
+        const date = new Date(log.date);
+        const dateStr = date.toLocaleDateString();
+
+        let trendHtml = '';
+        if (index < logs.length - 1) {
+          const diff = log.weight - logs[index + 1].weight;
+          if (diff < 0) {
+            trendHtml = `<span class="weight-trend trend-down">↓ ${Math.abs(diff).toFixed(1)}kg</span>`;
+          } else if (diff > 0) {
+            trendHtml = `<span class="weight-trend trend-up">↑ ${diff.toFixed(1)}kg</span>`;
+          } else {
+            trendHtml = `<span class="weight-trend">→ 0kg</span>`;
+          }
+        }
+
+        html += `<div class="weight-entry">
+          <div>
+            <strong>${log.weight}kg</strong> - ${dateStr}
+          </div>
+          ${trendHtml}
+        </div>`;
+      });
+
+      historyDiv.innerHTML = html;
+
+      // Calculate and display BMI
+      const height = localStorage.getItem('userHeight');
+      if (height) {
+        const heightM = parseFloat(height) / 100;
+        const bmi = (logs[0].weight / (heightM * heightM)).toFixed(1);
+
+        let bmiCategory = '';
+        if (bmi < 18.5) bmiCategory = 'Underweight';
+        else if (bmi < 25) bmiCategory = 'Normal';
+        else if (bmi < 30) bmiCategory = 'Overweight';
+        else bmiCategory = 'Obese';
+
+        bmiDisplay.innerHTML = `<div class="bmi-display">
+          <div>Your BMI: <span class="bmi-value">${bmi}</span></div>
+          <div style="font-size: 14px; margin-top: 5px;">${bmiCategory}</div>
+        </div>`;
+      }
+    }
+
+    function updateStatistics() {
+      // Total workouts (count unique dates)
+      const workoutLogs = JSON.parse(localStorage.getItem('workoutLogs') || '[]');
+      const uniqueDates = new Set();
+      workoutLogs.forEach(log => {
+        const date = new Date(log.date).toDateString();
+        uniqueDates.add(date);
+      });
+      document.getElementById('totalWorkouts').textContent = uniqueDates.size;
+
+      // Current streak
+      const streak = calculateStreak(Array.from(uniqueDates).map(d => new Date(d)));
+      document.getElementById('currentStreak').textContent = streak;
+
+      // Weight lost
+      const weightLogs = JSON.parse(localStorage.getItem('weightLogs') || '[]');
+      if (weightLogs.length >= 2) {
+        const firstWeight = weightLogs[weightLogs.length - 1].weight;
+        const currentWeight = weightLogs[0].weight;
+        const lost = firstWeight - currentWeight;
+        document.getElementById('weightLost').textContent = lost.toFixed(1);
+
+        // Update goal
+        const remaining = Math.max(0, 10 - lost);
+        document.getElementById('toGoal').textContent = remaining.toFixed(1);
+      }
+    }
+
+    function calculateStreak(dates) {
+      if (dates.length === 0) return 0;
+
+      dates.sort((a, b) => b - a); // Sort descending
+
+      let streak = 0;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      for (let i = 0; i < dates.length; i++) {
+        const date = new Date(dates[i]);
+        date.setHours(0, 0, 0, 0);
+
+        const daysDiff = Math.floor((today - date) / (1000 * 60 * 60 * 24));
+
+        if (daysDiff === streak) {
+          streak++;
+        } else if (daysDiff > streak) {
+          break;
+        }
+      }
+
+      return streak;
+    }
+
+    // Update openTab to refresh tracker data
+    const originalOpenTab = openTab;
+    function openTab(evt, tabName) {
+      originalOpenTab(evt, tabName);
+      if (tabName === 'tracker') {
+        loadWorkoutHistory();
+        loadWeightHistory();
+        updateStatistics();
+      }
     }
   </script>
 </body>
