@@ -1,0 +1,16 @@
+{
+  "name": "nics-gym-program",
+  "version": "1.0.0",
+  "description": "Nic's 8-Week Back-Friendly Gym Transformation Program",
+  "main": "gym_program.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "validate": "node scripts/validate.js",
+    "version": "node scripts/update-version.js",
+    "deploy": "netlify deploy --prod"
+  },
+  "keywords": ["fitness", "pwa", "gym", "workout"],
+  "author": "Nic",
+  "license": "MIT",
+  "devDependencies": {}
+}

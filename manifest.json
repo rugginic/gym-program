@@ -1,0 +1,28 @@
+{
+  "name": "Nic's Gym Program",
+  "short_name": "GymPro",
+  "version": "1.0.0",
+  "description": "Your 8-week transformation plan - 45-minute back-friendly gym program",
+  "start_url": "./gym_program.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#3498db",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "fitness", "lifestyle"],
+  "screenshots": []
+}
