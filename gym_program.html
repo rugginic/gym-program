@@ -753,6 +753,63 @@
       background: #f9f9f9;
     }
 
+    /* Custom Exercise Styles */
+    .custom-exercise-item {
+      background: var(--light-gray);
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .custom-exercise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .custom-exercise-name {
+      font-weight: 600;
+      color: var(--secondary);
+      font-size: 16px;
+    }
+
+    .custom-exercise-day {
+      font-size: 12px;
+      color: #777;
+      background: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .custom-exercise-details {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .custom-exercise-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .delete-button {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .delete-button:hover {
+      background: #c0392b;
+    }
+
     /* Mobile optimizations */
     @media (max-width: 768px) {
       .container {
@@ -1104,6 +1161,45 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Exercise Manager -->
+      <div class="tracker-section">
+        <h2>Exercise Manager</h2>
+        <p style="font-size: 14px; color: #777; margin-bottom: 15px;">Customize your workout exercises</p>
+
+        <div class="input-group">
+          <label for="exerciseDay">Workout Day:</label>
+          <select id="exerciseDay">
+            <option value="monday">Monday - Lower Body + Core</option>
+            <option value="wednesday">Wednesday - Back & Core Focus</option>
+            <option value="friday">Friday - Full Body + Cardio</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="exerciseName">Exercise Name:</label>
+          <input type="text" id="exerciseName" placeholder="e.g., Leg Press">
+        </div>
+
+        <div class="input-group">
+          <label for="exerciseSets">Sets × Reps:</label>
+          <input type="text" id="exerciseSets" placeholder="e.g., 4 × 12,10,8,8">
+        </div>
+
+        <div class="input-group">
+          <label for="exerciseRest">Rest (seconds):</label>
+          <input type="number" id="exerciseRest" placeholder="60" value="60">
+        </div>
+
+        <div class="input-group">
+          <label for="exerciseVideo">Video URL (optional):</label>
+          <input type="url" id="exerciseVideo" placeholder="https://youtube.com/...">
+        </div>
+
+        <button class="log-button" onclick="addCustomExercise()">Add Exercise</button>
+
+        <div id="customExercisesList" style="margin-top: 20px;"></div>
       </div>
 
       <!-- Key Metrics Dashboard -->
@@ -1857,6 +1953,146 @@
 
       return streak;
     }
+
+    // Custom Exercise Management
+    function addCustomExercise() {
+      const day = document.getElementById('exerciseDay').value;
+      const name = document.getElementById('exerciseName').value.trim();
+      const sets = document.getElementById('exerciseSets').value.trim();
+      const rest = document.getElementById('exerciseRest').value;
+      const video = document.getElementById('exerciseVideo').value.trim();
+
+      if (!name || !sets) {
+        alert('Please enter exercise name and sets/reps');
+        return;
+      }
+
+      const exercise = {
+        id: Date.now(),
+        day: day,
+        name: name,
+        sets: sets,
+        rest: rest || 60,
+        video: video || ''
+      };
+
+      let customExercises = JSON.parse(localStorage.getItem('customExercises') || '[]');
+      customExercises.push(exercise);
+      localStorage.setItem('customExercises', JSON.stringify(customExercises));
+
+      // Clear form
+      document.getElementById('exerciseName').value = '';
+      document.getElementById('exerciseSets').value = '';
+      document.getElementById('exerciseRest').value = '60';
+      document.getElementById('exerciseVideo').value = '';
+
+      loadCustomExercises();
+      renderWorkoutDay(day);
+      alert('Exercise added successfully!');
+    }
+
+    function deleteCustomExercise(id) {
+      if (!confirm('Are you sure you want to delete this exercise?')) {
+        return;
+      }
+
+      let customExercises = JSON.parse(localStorage.getItem('customExercises') || '[]');
+      const exercise = customExercises.find(ex => ex.id === id);
+      customExercises = customExercises.filter(ex => ex.id !== id);
+      localStorage.setItem('customExercises', JSON.stringify(customExercises));
+
+      loadCustomExercises();
+      if (exercise) {
+        renderWorkoutDay(exercise.day);
+      }
+      alert('Exercise deleted successfully!');
+    }
+
+    function loadCustomExercises() {
+      const customExercises = JSON.parse(localStorage.getItem('customExercises') || '[]');
+      const container = document.getElementById('customExercisesList');
+
+      if (!container) return;
+
+      if (customExercises.length === 0) {
+        container.innerHTML = '<p class="no-data">No custom exercises added yet</p>';
+        return;
+      }
+
+      const dayNames = {
+        monday: 'Monday',
+        wednesday: 'Wednesday',
+        friday: 'Friday'
+      };
+
+      let html = '<h3 style="margin-bottom: 10px;">Your Custom Exercises</h3>';
+      customExercises.forEach(exercise => {
+        html += `
+          <div class="custom-exercise-item">
+            <div class="custom-exercise-header">
+              <span class="custom-exercise-name">${exercise.name}</span>
+              <span class="custom-exercise-day">${dayNames[exercise.day]}</span>
+            </div>
+            <div class="custom-exercise-details">
+              <div><strong>Sets:</strong> ${exercise.sets}</div>
+              <div><strong>Rest:</strong> ${exercise.rest}s</div>
+              ${exercise.video ? `<div><strong>Video:</strong> <a href="${exercise.video}" target="_blank" style="color: var(--primary);">[Link]</a></div>` : ''}
+            </div>
+            <div class="custom-exercise-actions">
+              <button class="delete-button" onclick="deleteCustomExercise(${exercise.id})">Delete</button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function renderWorkoutDay(day) {
+      const customExercises = JSON.parse(localStorage.getItem('customExercises') || '[]');
+      const dayExercises = customExercises.filter(ex => ex.day === day);
+
+      if (dayExercises.length === 0) return;
+
+      // Find the workout section for this day
+      const dayTab = document.getElementById(day);
+      if (!dayTab) return;
+
+      // Find the exercise table in this day's tab
+      const table = dayTab.querySelector('.exercise-table');
+      if (!table) return;
+
+      // Add custom exercises to the table
+      dayExercises.forEach(exercise => {
+        // Check if exercise already exists in table
+        const existingRow = Array.from(table.querySelectorAll('.exercise-name')).find(
+          el => el.textContent === exercise.name
+        );
+        if (existingRow) return; // Skip if already rendered
+
+        const row = table.insertRow(-1);
+        row.className = 'exercise-row';
+        row.innerHTML = `
+          <td>
+            <span class="exercise-icon"></span>
+            <span class="exercise-name">${exercise.name}</span>
+            ${exercise.video ? `<a href="${exercise.video}" target="_blank" class="exercise-link">[Video]</a>` : ''}
+            <button class="log-button-small" onclick="openQuickLog('${exercise.name}', '${day}')">Log</button>
+          </td>
+          <td>${exercise.sets}</td>
+          <td>${exercise.rest}s <span class="rest-link" onclick="startTimer(${exercise.rest})">[Start]</span></td>
+        `;
+      });
+    }
+
+    // Load custom exercises on page load
+    window.addEventListener('load', () => {
+      loadCustomExercises();
+      // Render custom exercises for each day
+      renderWorkoutDay('monday');
+      renderWorkoutDay('wednesday');
+      renderWorkoutDay('friday');
+    });
 
   </script>
 </body>
